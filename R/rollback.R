@@ -6,7 +6,7 @@ rollback <- function(pkgName,
                      docs = TRUE,
                      vignettes = TRUE,
                      verbose=1){
-
+  pkgName <- as.character(substitute(pkgName))  
   # {{{  locating files
   
   if (missing(lib)) lib <- options()$refreshLibrary

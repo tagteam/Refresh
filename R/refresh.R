@@ -7,6 +7,8 @@ refresh <- function(pkgName,
                     docs = TRUE,
                     vignettes = TRUE,
                     verbose=1){
+
+  pkgName <- as.character(substitute(pkgName))
   oldPwd <- getwd()
   setwd(file.path(Archive))
   

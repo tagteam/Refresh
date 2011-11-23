@@ -1,4 +1,5 @@
 check.data <- function(name,path="~/research/SoftWare",pattern=".R$"){
+  name <- as.character(substitute(name))  
   path <- paste(dirname(path),"/",basename(path),"/",sep="")
   Rlib <- path.expand(paste(path,name,"/data",sep=""))
   print(Rlib)

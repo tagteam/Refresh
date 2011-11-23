@@ -8,7 +8,8 @@
 \description{
   Functions for R package maintainers and other
   people who are too lazy and too oblivious to use R CMD build, install,
-  check, cran.
+  check. In unix-like environments it the function cran will upload a
+  package to CRAN and prepare a suitable email to the CRAN people.
 }
 \details{
 refresh, check,  check.code, cran
@@ -41,6 +42,6 @@ check.code("roadrunner")
 check("roadrunner")
 
 # upload to cran:
-check("roadrunner")
+cran("roadrunner")
 }
 }

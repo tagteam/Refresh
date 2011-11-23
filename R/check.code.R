@@ -1,7 +1,7 @@
 check.code <- function(pkgName,
                        Source=options()$refreshSource,
                        pattern=".r$|.R$"){
-
+  pkgName <- as.character(substitute(pkgName))  
   # {{{  search for an uncompressed package directory with the source code
   Source <- Source[!duplicated(Source)]
   found <- sapply(Source,function(s){file.exists(file.path(s,pkgName))})

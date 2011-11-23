@@ -4,7 +4,7 @@ check <- function(pkgName,
                   lib=.libPaths()[1],
                   recursive=FALSE,
                   ask=FALSE){
-  
+  pkgName <- as.character(substitute(pkgName))  
   if (is.null(Archive) || ask)
     Archive <- file.choose()
   if (is.null(Archive) || !(file.exists(Archive)))
