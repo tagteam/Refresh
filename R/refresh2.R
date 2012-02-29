@@ -1,17 +1,16 @@
-refresh <- function(pkgName,
-                    lib=options()$refreshLibrary,
-                    ## Archive=options()$refreshArchive,
-                    Source=options()$refreshSource,
-                    ask=FALSE,
-                    recursive=FALSE,
-                    docs = TRUE,
-                    vignettes = TRUE,
-                    verbose=1){
+refresh2 <- function(pkgName,
+                     lib=options()$refreshLibrary,
+                     Archive=options()$refreshArchive,
+                     Source=options()$refreshSource,
+                     ask=FALSE,
+                     recursive=FALSE,
+                     docs = TRUE,
+                     vignettes = TRUE,
+                     verbose=1){
 
   pkgName <- as.character(substitute(pkgName))
   oldPwd <- getwd()
-  setwd(file.path(refreshLibrary))
-  ## setwd(file.path(Archive))
+  setwd(file.path(Archive))
   
   ## if (!is.character(pkgName))
   # {{{  locating files
@@ -23,15 +22,16 @@ refresh <- function(pkgName,
   if (!(match(sub("/$","",lib),sapply(.libPaths(),function(x)sub("/$","",x)),nomatch=FALSE)))
     warning("\nThe library is not in the search path.\nYou can add it by evaluating the R-command\n `.libPaths(\"",lib,"\")'")
   
-  ## if (is.null(Archive) || ask){
-    ## cat("\nChoose directory for saving the result of R CMD build\n ")
-    ## Archive <- file.choose()
-  ## }
-  ## if (is.null(Archive) || !(file.exists(Archive)))
-    ## warning("Argument `Archive' is not a valid directory-name.\nIt should be a directory in which the `packageName_version.tar.gz' files are stored.")
+  if (is.null(Archive) || ask){
+    cat("\nChoose directory for saving the result of R CMD build\n ")
+    Archive <- file.choose()
+  }
+  if (is.null(Archive) || !(file.exists(Archive)))
+    warning("Argument `Archive' is not a valid directory-name.\nIt should be a directory in which the `packageName_version.tar.gz' files are stored.")
 
   # }}}
   # {{{  search for an uncompressed package directory with the source code
+
   if (is.null(Source) || ask){
     cat("\nChoose the directory where the R source code of your package lives\n ")
     Source <- file.choose()
@@ -64,38 +64,37 @@ refresh <- function(pkgName,
          paste(Source,"\n"))
   }
   # }}}
-  # {{{ building  
+  # {{{  
   ##  Find the  source code and try to build the tarFile 
   ##  ------------------------------------------------------------------
   ## FIXME: instead of warn ask or backup or increase version number (using awk)
-  ## allVersions <- list.files(path=file.path(Archive),pattern=paste(pkgName,".*.tar.gz",sep=""),recursive=recursive)
-  ## newVersion <- paste(pkgName,"_",sourceCodeVersion,".tar.gz",sep="")
-  ## if(match(newVersion,allVersions,nomatch=0)!=0)
-    ## warning("Overwriting existing packaged version ",newVersion," in directory ",Archive)
+  allVersions <- list.files(path=file.path(Archive),pattern=paste(pkgName,".*.tar.gz",sep=""),recursive=recursive)
+  newVersion <- paste(pkgName,"_",sourceCodeVersion,".tar.gz",sep="")
+  if(match(newVersion,allVersions,nomatch=0)!=0)
+    warning("Overwriting existing packaged version ",newVersion," in directory ",Archive)
   ## if (file.exists(file.path(Archive, freshVersion))){
   ## message(paste("\nCopied",file.path(Archive, freshVersion),"to",file.path(Archive,"old", freshVersion),"\n"))
   ## file.copy(file.path(Archive, freshVersion),file.path(Archive,"old", freshVersion))
   
-  ## buildCMD <- paste(file.path(R.home(), "bin", "R"),
-                    ## "CMD build",
-                    ## if(vignettes != TRUE){' --no-vignettes'},
-                    ## SourceP)
+  buildCMD <- paste(file.path(R.home(), "bin", "R"),
+                    "CMD build",
+                    if(vignettes != TRUE){' --no-vignettes'},
+                    SourceP)
   
-  ## if (verbose>0)
-    ## message("\nRefreshing (building) the package from the directory ",SourceP," via the command:\n\n",buildCMD,"\n")
+  if (verbose>0)
+    message("\nRefreshing (building) the package from the directory ",SourceP," via the command:\n\n",buildCMD,"\n")
     
-    ## try(bbb <- system(buildCMD,intern=(verbose<2)),silent=TRUE)
+    try(bbb <- system(buildCMD,intern=(verbose<2)),silent=TRUE)
   
-  ## if (length(bbb)==0){
-  ## cat("No such file or directory: ",SourceP)
-  ## }
-  ## else if (length(bbb)<9){
-  ## cat("\n",rep("-",42),"\nMessages from build command\n",rep("-",42),"\n\n",sub("\\*","\\\n*",bbb),sep="")
-  ## }
+  if (length(bbb)==0){
+    cat("No such file or directory: ",SourceP)
+  }
+  else if (length(bbb)<9){
+    cat("\n",rep("-",42),"\nMessages from build command\n",rep("-",42),"\n\n",sub("\\*","\\\n*",bbb),sep="")
+  }
 
   # }}}
   # {{{  Unloading  
-
   try(detach(pos=match(paste("package", pkgName, sep = ":"),
                search(),
                nomatch=FALSE),unload=TRUE),silent=TRUE)
@@ -111,7 +110,6 @@ refresh <- function(pkgName,
 
   # }}}
   # {{{ R-version specific install command
-
   ## check for lockfile
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
@@ -129,11 +127,12 @@ refresh <- function(pkgName,
                        if(docs != TRUE){'--no-docs'},
                        " -l ",
                        file.path(lib),
-                       SourceP)
-                       ## file.path(Archive, newVersion) )
+                       file.path(Archive, newVersion))
   message(run.install)
   system(run.install,intern=(verbose<2))
   require(pkgName, character.only = TRUE)
-
   # }}}
 }
+
+
+
