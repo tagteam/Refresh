@@ -18,14 +18,30 @@ refresh, check,  check.code, cran
 \keyword{package}
 \examples{
 \dontrun{
-# modify the following lines according to your own structure and add them to your .Rprofile:
-
-options(refreshLibrary=ifelse(version$platform!="x86_64-unknown-linux-gnu","~/R/library","~/R/library64"))
+## 
+# to use the full functionality of the Refresh package modify
+# the following lines according to your own structure
+# and add them to your .Rprofile:
+##
+# tell 'refresh' and R where to install the packages 
+##
+lib <- ifelse(.Machine$sizeof.pointer==4,"~/R/library","~/R/library64")
+options(refreshLibrary=lib)
+.libPaths(c(lib,.libPaths()))
+##
+# tell 'pack' and 'rollback' the place of archived package versions 
+## 
 options(refreshArchive="~/R/packages")
+##
+# tell 'refresh' and 'check.code' where to find the package sources
+## 
 options(refreshSource=c("~/R/iDevel","~/research/SoftWare"))
+##
+# tell 'check' where to place the log 
+##
 options(refreshLogDir="~/tmp")
 
-# Create a package
+# Create an empty package
 # in one of the directories in options()$refreshSource, e.g.
 setwd(options()$refreshSource[1])
 coyote <- function(x)x

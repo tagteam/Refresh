@@ -1,1 +1,1 @@
-export("refresh","refresh2","rollback","check.code","cran","check","rforge")
+export("refresh","pack","rollback","check.code","cran","check","rforge")

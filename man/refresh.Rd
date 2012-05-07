@@ -37,9 +37,8 @@ refresh(pkgName,
   \item{vignettes}{If \code{FALSE}  add flag \code{" --no-vignettes"} to the R CMD build command. }
 }
 \details{
-  If the newly built package has the same version as one of the archived
-  packages, then the archived package is moved to a directory Archive/old.
-
+  \code{refresh} does not build the archive, i.e. the package-version.tar.gz 
+  or package-version.zip archive, but the function \code{pack} can do this.
 }
 \value{
 nil
@@ -48,8 +47,51 @@ nil
 \seealso{\code{\link{Refresh-package}}}
 \examples{
 \dontrun{
+##
+# Suppose you have an R-package called 'roadrunner'.
+# 
+# (Recall that an R-package is just a directory in your
+# file-system which includes a valid DESCRIPTION file
+# and sub-directories called 'R', 'man', 'data', 'example')
+#
+# Suppose further that the R-package 'roadrunner' is
+# a subdirectory of the directory '~/R/iDevel/'
+# Then, the following command will try to install the
+# package to the subdirectory '~/R/library'  
+##
+
+refresh("roadrunner",lib="~/R/library",Source="~/R/iDevel/")
+
+##
+# If this works, then you may want to customize for future
+# usage. Add the following lines to your .Rprofile:
+##
+lib <- ifelse(.Machine$sizeof.pointer==4,"~/R/library","~/R/library64")
+options(refreshLibrary=lib)
+.libPaths(c(lib,.libPaths()))
+options(refreshSource=c("~/R/iDevel"))
+##
+# Then it is easy to refresh the package:
+##
+
 refresh("roadrunner")
-  }
+
+# or even without quotes
+
+refresh(roadrunner)
+
+##
+# If the refresh failes, you may want to start investigating
+# why by telling 'refresh' be more talkative 
+##
+refresh(roadrunner,verbose=2)
+
+## and by calling 'check.code' which runs all R-files of the package
+## via 'source(filename)'
+
+check.code(roadrunner)
+
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
