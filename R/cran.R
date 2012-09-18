@@ -13,7 +13,20 @@ cran <- function(name,tarGet="~/R/packages",recursive=FALSE){
                                                        "\n???"))
     if (doit=="yes"){
       system(uploadstring)
-      cat("\n**Now you might want to send an email to:**\n\nCRAN@R-project.org\n\nDear cRan executive director\n\nplease note my add-on package",version,"on\n\nftp://CRAN.R-project.org/incoming/\n\nBest regards,\n")
+      cat("\n**Now you might want to send an email to:",
+          "**\n\nTo: CRAN@R-project.org\n",
+          "With the following subject line:\n",
+          "\nSubject:",
+          "CRAN submission",
+          name,
+          unlist(strsplit(version,"_|tar.gz"))[2],
+          "\n",
+          "\nDear cRan executive director\n",
+          "\nplease note the new version of my R-package",
+          version,
+          "on\n\nftp://CRAN.R-project.org/incoming/\n",
+          "Thank you very much for lifting it onto cRan!\n",
+          "\nBest regards,\n")
     }
   }
 }

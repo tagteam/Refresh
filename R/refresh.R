@@ -12,7 +12,8 @@ refresh <- function(pkgName,
   oldPwd <- getwd()
   setwd(file.path(lib))
   ## setwd(file.path(Archive))
-  
+  ## FIXME
+  ## roxygenize("/home/ifsv/grb615/research/SoftWare/lava/")  
   ## if (!is.character(pkgName))
   # {{{  locating files
   
@@ -113,11 +114,13 @@ refresh <- function(pkgName,
   # {{{ R-version specific install command
 
   ## check for lockfile
+  if (version$major>=2 & version$minor >= 15)
+  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  else
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
   if (verbose)
     message("Remove file:",lock)
-
   system(paste("rm -rf",lock),intern=(verbose<2))
   ## }
 

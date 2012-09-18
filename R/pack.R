@@ -1,12 +1,12 @@
-pack <- function(pkgName,
-                 lib=options()$refreshLibrary,
-                 Archive=options()$refreshArchive,
-                 Source=options()$refreshSource,
-                 ask=FALSE,
-                 recursive=FALSE,
-                 docs = TRUE,
-                 vignettes = TRUE,
-                 verbose=1){
+build <- function(pkgName,
+                  lib=options()$refreshLibrary,
+                  Archive=options()$refreshArchive,
+                  Source=options()$refreshSource,
+                  ask=FALSE,
+                  recursive=FALSE,
+                  docs = TRUE,
+                  vignettes = TRUE,
+                  verbose=1){
 
   pkgName <- as.character(substitute(pkgName))
   oldPwd <- getwd()
@@ -111,6 +111,9 @@ pack <- function(pkgName,
   # }}}
   # {{{ R-version specific install command
   ## check for lockfile
+  if (version$major>=2 & version$minor >= 15)
+  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  else
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
   if (verbose)

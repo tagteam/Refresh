@@ -10,6 +10,9 @@ check <- function(pkgName,
   if (is.null(Archive) || !(file.exists(Archive)))
     warning("Argument `Archive' is not a valid directory-name.\nIt should be a directory in which the `packageName_version.tar.gz' files are stored.")
   ## check for lockfile
+  if (version$major>=2 & version$minor >= 15)
+  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  else
   lock <- paste(lib,"/00LOCK",sep="")
   if (file.exists(lock)){
     message("Remove file:",lock)

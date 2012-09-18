@@ -1,7 +1,7 @@
 Package: Refresh
 Type: Package
 Title: Run RCMD build, install, check from within R
-Version: 1.0.8
+Version: 1.0.9
 Date: 2008-04-17
 Author: Thomas A. Gerds
 Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
