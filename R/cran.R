@@ -24,7 +24,8 @@ cran <- function(name,tarGet="~/R/packages",recursive=FALSE){
           "\nDear cRan executive director\n",
           "\nplease note the new version of my R-package",
           version,
-          "on\n\nftp://CRAN.R-project.org/incoming/\n",
+          "on\n\nftp://CRAN.R-project.org/incoming/\n\n",
+          "I have read and agree to these policies: http://cran.r-project.org/web/packages/policies.html\n\n",
           "Thank you very much for lifting it onto cRan!\n",
           "\nBest regards,\n")
     }

@@ -3,7 +3,7 @@ check <- function(pkgName,
                   LogDir=options()$refreshCheckLog,
                   lib=.libPaths()[1],
                   recursive=FALSE,
-                  ask=FALSE){
+                  ask=FALSE,as.cran=FALSE){
   pkgName <- as.character(substitute(pkgName))  
   if (is.null(Archive) || ask)
     Archive <- file.choose()
@@ -24,6 +24,9 @@ check <- function(pkgName,
     cat("\nChoose a directory for the log of Rcheck (e.g. ~/tmp/) no quotes!\n")
     LogDir <- file.choose()
   }
+  if (as.cran==TRUE)
+    checkstring <- paste("cd ",LogDir,";R --no-init-file CMD check --as-cran -l ",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
+  else
   checkstring <- paste("cd ",LogDir,";R CMD check -l ",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
   message(checkstring)
   system(checkstring)
