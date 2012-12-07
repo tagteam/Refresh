@@ -39,7 +39,9 @@ refresh <- function(pkgName,
   }
   
   Source <- Source[!duplicated(Source)]
-  found <- sapply(Source,function(s){file.exists(file.path(s,pkgName))})
+  found <- sapply(Source,function(s){
+    file.exists(file.path(s,pkgName)) && file.exists(file.path(s,pkgName,"DESCRIPTION"))
+  })
   ## print(file.path(Source,pkgName))
   if (sum(found)>1){
     warning("Package source found in two different places.")
@@ -61,7 +63,7 @@ refresh <- function(pkgName,
     ## stop if no directory with that name
     stop("No directory with name '",
          pkgName,
-         "' found in:\n\n",
+         "' which includes a DESCRIPTION file found in:\n\n",
          paste(Source,"\n"))
   }
   # }}}
@@ -93,7 +95,15 @@ refresh <- function(pkgName,
   ## else if (length(bbb)<9){
   ## cat("\n",rep("-",42),"\nMessages from build command\n",rep("-",42),"\n\n",sub("\\*","\\\n*",bbb),sep="")
   ## }
-
+  
+  # }}}
+  # {{{ removing .o files
+  if (file.exists(file.path(SourceP,"src"))){
+    ofiles <- list.files(file.path(SourceP,"src"),pattern="\\.o$")
+    if (select.list(list("y","n"),multiple=FALSE,title=paste("Remove ofiles?:\n ",paste(ofiles,collapse="\n"),"Remove ofiles? "))=="y"){
+      file.remove(sapply(ofiles,function(f){file.path(SourceP,"src",f)}))
+    }
+  }
   # }}}
   # {{{  Unloading  
 
