@@ -27,6 +27,7 @@ check.code <- function(pkgName,
   Rfiles <- list.files(path=file.path(Rlib),pattern=pattern)
   lapply(Rfiles,function(name){
     message(name)
+    warning(name)
     source(file.path(Rlib,name))
   })
   # }}}

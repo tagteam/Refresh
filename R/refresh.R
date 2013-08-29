@@ -100,8 +100,11 @@ refresh <- function(pkgName,
   # {{{ removing .o files
   if (file.exists(file.path(SourceP,"src"))){
     ofiles <- list.files(file.path(SourceP,"src"),pattern="\\.o$")
-    if (select.list(list("y","n"),multiple=FALSE,title=paste("Remove ofiles?:\n ",paste(ofiles,collapse="\n"),"Remove ofiles? "))=="y"){
+    if (length(ofiles)>0){
+      ## if (select.list(list("y","n"),multiple=FALSE,title=paste("Remove ofiles?:\n ",paste(ofiles,collapse="\n"),"Remove ofiles? "))=="y"){
+      message("remove .o files")
       file.remove(sapply(ofiles,function(f){file.path(SourceP,"src",f)}))
+      ## }
     }
   }
   # }}}
@@ -124,7 +127,7 @@ refresh <- function(pkgName,
   # {{{ R-version specific install command
 
   ## check for lockfile
-  if (version$major>=2 & version$minor >= 15)
+  if (version$major>=3 || (version$major>=2 & version$minor >= 15))
   lock <- paste(lib,"/00LOCK-",pkgName,sep="")
   else
   lock <- paste(lib,"/00LOCK",sep="")
