@@ -111,8 +111,8 @@ build <- function(pkgName,
   # }}}
   # {{{ R-version specific install command
   ## check for lockfile
-  if (version$major>=2 & version$minor >= 15)
-  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  if (version$major>=3 || (version$major>=2 & version$minor >= 15))
+      lock <- paste(lib,"/00LOCK-",pkgName,sep="")
   else
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
