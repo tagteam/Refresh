@@ -33,7 +33,7 @@ roxy <- function(pkgName,
     # {{{ Running roxygenize
     require(roxygen2)
     if (verbose)
-        cat("\n","\n ... Roxygenizing ",pkgName,"\n",sep="")
+        cat("\n","... Roxygenizing ",pkgName,"\n",sep="")
     roxygenize(SourceP)
     # }}}
 }
