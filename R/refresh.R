@@ -6,7 +6,7 @@ refresh <- function(pkgName,
                     recursive=FALSE,
                     docs = TRUE,
                     vignettes = TRUE,
-                    verbose=1){
+                    verbose=2){
 
   pkgName <- as.character(substitute(pkgName))
   oldPwd <- getwd()
