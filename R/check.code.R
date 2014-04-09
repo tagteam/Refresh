@@ -1,7 +1,7 @@
 ##' Source all R files of a package 
 ##'
 ##' This is useful to try changes of a package and to identify syntax failures.
-##' @aliases Source
+##' @aliases Source check.code
 ##' @title Source all R files of a package
 ##' @param pkg Quoted or unquoted name of the package 
 ##' @param Source place where to look for package
@@ -9,7 +9,6 @@
 ##' @return nothing
 ##' @export 
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
-Source <- check.code
 check.code <- function(pkg,
                        Source=options()$refreshSource,
                        pattern=".r$|.R$"){
@@ -45,3 +44,5 @@ check.code <- function(pkg,
     # }}}
     invisible(NULL)
 }
+##' @export 
+Source <- check.code

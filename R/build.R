@@ -1,3 +1,4 @@
+#' @export
 build <- function(pkgName,
                   lib=options()$refreshLibrary,
                   Archive=options()$refreshArchive,

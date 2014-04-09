@@ -1,3 +1,4 @@
+#' @export
 check <- function(pkgName,
                   Archive=options()$refreshArchive,
                   LogDir=options()$refreshCheckLog,

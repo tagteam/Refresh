@@ -1,4 +1,5 @@
-rollback <- function(pkgName,
+##' @export 
+rollback <- function(pkg,
                      lib=options()$refreshLibrary,
                      Archive=options()$refreshArchive,
                      ask=FALSE,
@@ -6,7 +7,7 @@ rollback <- function(pkgName,
                      docs = TRUE,
                      vignettes = TRUE,
                      verbose=1){
-  pkgName <- as.character(substitute(pkgName))  
+  pkg <- as.character(substitute(pkg))  
   # {{{  locating files
   
   if (missing(lib)) lib <- options()$refreshLibrary
@@ -29,8 +30,8 @@ rollback <- function(pkgName,
   oldPwd <- getwd()
   setwd(file.path(Archive))
   
-  tarGz.versions <- list.files(path=file.path(Archive),pattern=paste(pkgName,".*.tar.gz",sep=""),recursive=recursive)
-  zip.versions <- list.files(path=file.path(Archive),pattern=paste(pkgName,".*.zip",sep=""),recursive=recursive)
+  tarGz.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
+  zip.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.zip",sep=""),recursive=recursive)
   
   # }}}
   # {{{  now decide what to do
@@ -42,16 +43,16 @@ rollback <- function(pkgName,
   selectedVersion <- select.list(availableVersions,multiple=FALSE,title="Select package version: ")
   # }}}
   # {{{  Unloading  
-  try(detach(pos=match(paste("package", pkgName, sep = ":"),
+  try(detach(pos=match(paste("package", pkg, sep = ":"),
                search(),
                nomatch=FALSE),unload=TRUE),silent=TRUE)
   
   
-  try(unloadNamespace(pkgName),silent=TRUE)
-  dynname <- paste(file.path(lib),"/",pkgName,sep="")
+  try(unloadNamespace(pkg),silent=TRUE)
+  dynname <- paste(file.path(lib),"/",pkg,sep="")
   message(paste("try unloading ",dynname))
-  try(library.dynam.unload(pkgName,dynname),silent=TRUE)
-  #  TRUE(detach(paste("package", pkgName, sep = ":")),silent=T)
+  try(library.dynam.unload(pkg,dynname),silent=TRUE)
+  #  TRUE(detach(paste("package", pkg, sep = ":")),silent=T)
   
   setwd(oldPwd)
 
@@ -59,7 +60,7 @@ rollback <- function(pkgName,
   # {{{ R-version specific install command
   ## check for lockfile
     if (version$major>=2 & version$minor >= 15)
-  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  lock <- paste(lib,"/00LOCK-",pkg,sep="")
   else
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
@@ -70,7 +71,7 @@ rollback <- function(pkgName,
   ## }
 
   if (verbose)
-  cat("\n",rep("-",42),"\nInstalling the selected version of ",pkgName,"\n",rep("-",42),"\n\n",sep="")
+  cat("\n",rep("-",42),"\nInstalling the selected version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
   
   run.install <- paste(file.path(R.home(),"bin","R"),
                        "CMD INSTALL",
@@ -80,7 +81,7 @@ rollback <- function(pkgName,
                        file.path(Archive, selectedVersion))
   message(run.install)
   system(run.install,intern=(verbose<2))
-  require(pkgName, character.only = TRUE)
+  require(pkg, character.only = TRUE)
   # }}}
 }
 

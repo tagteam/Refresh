@@ -5,5 +5,19 @@ Version: 1.0.9
 Date: 2008-04-17
 Author: Thomas A. Gerds
 Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
-Description: For lazy R package managers an efficient way to rebuild and re-install a package.
+Description: For lazy R package managers an efficient way to rebuild and
+    re-install a package.
 License: GPL (>= 2)
+Collate:
+    'build.R'
+    'check.code.R'
+    'check.data.R'
+    'check.R'
+    'cran.R'
+    'install.R'
+    'refresh.R'
+    'rforge.R'
+    'rollback.R'
+    'roxy.R'
+    'run.R'
+    'windoof.R'

@@ -1,6 +1,10 @@
-cran <- function(name,tarGet="~/R/packages",recursive=FALSE,email=FALSE){
-    name <- as.character(substitute(name))  
-    versions <- list.files(path=file.path(tarGet),pattern=paste(name,".*.tar.gz",sep=""),recursive=recursive)
+##' @export 
+cran <- function(pkg,
+                 tarGet="~/R/packages",
+                 recursive=FALSE,
+                 email=FALSE){
+    pkg <- as.character(substitute(pkg))  
+    versions <- list.files(path=file.path(tarGet),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
     version <- select.list(versions,multiple=FALSE,title="Select package version: ")
     cat("\nUsing program ncftp to upload the package:\n")
     ncftp.available <- system("ncftp -version")!=32512
@@ -19,7 +23,7 @@ cran <- function(name,tarGet="~/R/packages",recursive=FALSE,email=FALSE){
                          "(gnus-group-mail) (insert \"CRAN@R-project.org\")",
                          "(beginning-of-line)",
                          "(message-goto-subject)",
-                         "(insert \"CRAN submission", name, unlist(strsplit(version,"_|tar.gz"))[2],"\")",
+                         "(insert \"CRAN submission", pkg, unlist(strsplit(version,"_|tar.gz"))[2],"\")",
                          "(message-goto-body)",
                          "(insert \"","\nDear cRan executive team\n",
                          "\nplease note the new version of my R-package",
@@ -34,7 +38,7 @@ cran <- function(name,tarGet="~/R/packages",recursive=FALSE,email=FALSE){
                 "With the following subject line:\n",
                 "\nSubject:",
                 "CRAN submission",
-                name,
+                pkg,
                 unlist(strsplit(version,"_|tar.gz"))[2],
                 "\n",
                 "\nDear cRan executive director\n",

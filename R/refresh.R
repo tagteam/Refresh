@@ -1,4 +1,80 @@
-refresh <- function(pkgName,
+##'   You have changed a tiny detail in a man page of your R package, or
+##'  rewritten the main function of your R package, then you want to
+##'  re-build and re-install the package. This function is for lazy people
+##'  like me who do not each time want to open a terminal, find the syntax
+##'  "R CMD ...", restart R. Enjoy.
+##'
+##' 
+##' @title R packaging tools controlled from within the running R process
+##' @aliases roxy build rollback check cran 
+##' @param pkg The quoted or unquoted name of the package 
+##' @param lib     A directory in which to install the package. Default is
+##' \code{options()$refreshLibrary}. The directory should be in \code{.libPaths()}.
+##' @param Source A list of directories or a single directory
+##' where to find the package source code. Default is
+##' \code{options()$refreshSource}
+##' @param ask If \code{TRUE} ask for Archive and Source
+##' directories. 
+##' @param recursive If \code{TRUE} search in subdirectories of Archive. 
+##' @param docs If \code{FALSE}  add flag \code{" --no-docs"} to
+##' the R CMD install command. 
+##' @param vignettes If \code{FALSE}  add flag \code{" --no-vignettes"}
+##' to the R CMD build command. 
+##' @param verbose Decides about the degree of talkitivity.
+##' @return Nothing
+##' @seealso build 
+##' @examples
+##' refresh(Refresh)
+##'
+##' \dontrun{
+##'
+##'# Suppose you have an R-package called 'roadrunner'.
+##'# 
+##'# (Recall that an R-package is just a directory in your
+##'# file-system which includes a valid DESCRIPTION file
+##'# and sub-directories called 'R', 'man', 'data', 'example')
+##'#
+##'# Suppose further that the R-package 'roadrunner' is
+##'# a subdirectory of the directory '~/R/iDevel/'
+##'# Then, the following command will try to install the
+##'# package to the subdirectory '~/R/library'  
+##'##
+##'
+##'refresh("roadrunner",lib="~/R/library",Source="~/R/iDevel/")
+##'
+##'##
+##'# If this works, then you may want to customize for future
+##'# usage. Add the following lines to your .Rprofile:
+##'##
+##'lib <- ifelse(.Machine$sizeof.pointer==4,"~/R/library","~/R/library64")
+##'options(refreshLibrary=lib)
+##'.libPaths(c(lib,.libPaths()))
+##'options(refreshSource=c("~/R/iDevel"))
+##'##
+##'# Then it is easy to refresh the package:
+##'##
+##'
+##'refresh("roadrunner")
+##'
+##'# or even without quotes
+##'
+##'refresh(roadrunner)
+##'
+##'
+##'##
+##'# If the refresh failes, you may want to start investigating
+##'# why by telling 'refresh' be more talkative 
+##'##
+##'refresh(roadrunner,verbose=2)
+##'
+#'# and by calling 'check.code' which runs all R-files of the package
+#'# via 'source(filename)'
+##'
+##'check.code(roadrunner)}
+##' @keywords package 
+##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
+##' @export 
+refresh <- function(pkg,
                     lib=options()$refreshLibrary,
                     ## Archive=options()$refreshArchive,
                     Source=options()$refreshSource,
@@ -8,13 +84,13 @@ refresh <- function(pkgName,
                     vignettes = TRUE,
                     verbose=2){
 
-  pkgName <- as.character(substitute(pkgName))
+  pkg <- as.character(substitute(pkg))
   oldPwd <- getwd()
   setwd(file.path(lib))
   ## setwd(file.path(Archive))
   ## FIXME
   ## roxygenize("/home/ifsv/grb615/research/SoftWare/lava/")  
-  ## if (!is.character(pkgName))
+  ## if (!is.character(pkg))
   # {{{  locating files
   
   if (missing(lib)) lib <- options()$refreshLibrary
@@ -40,17 +116,17 @@ refresh <- function(pkgName,
   
   Source <- Source[!duplicated(Source)]
   found <- sapply(Source,function(s){
-    file.exists(file.path(s,pkgName)) && file.exists(file.path(s,pkgName,"DESCRIPTION"))
+    file.exists(file.path(s,pkg)) && file.exists(file.path(s,pkg,"DESCRIPTION"))
   })
-  ## print(file.path(Source,pkgName))
+  ## print(file.path(Source,pkg))
   if (sum(found)>1){
     warning("Package source found in two different places.")
     Spath <- select.list(Source[found],multiple=FALSE,title="Package source found in two different places, please choose: ")
-    SourceP <- file.path(Spath,pkgName)
+    SourceP <- file.path(Spath,pkg)
   }
   else{
     if (any(found)) 
-      SourceP <- file.path(Source[found],pkgName)
+      SourceP <- file.path(Source[found],pkg)
     else
       SourceP <- NA
   }
@@ -62,7 +138,7 @@ refresh <- function(pkgName,
   else{
     ## stop if no directory with that name
     stop("No directory with name '",
-         pkgName,
+         pkg,
          "' which includes a DESCRIPTION file found in:\n\n",
          paste(Source,"\n"))
   }
@@ -71,8 +147,8 @@ refresh <- function(pkgName,
   ##  Find the  source code and try to build the tarFile 
   ##  ------------------------------------------------------------------
   ## FIXME: instead of warn ask or backup or increase version number (using awk)
-  ## allVersions <- list.files(path=file.path(Archive),pattern=paste(pkgName,".*.tar.gz",sep=""),recursive=recursive)
-  ## newVersion <- paste(pkgName,"_",sourceCodeVersion,".tar.gz",sep="")
+  ## allVersions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
+  ## newVersion <- paste(pkg,"_",sourceCodeVersion,".tar.gz",sep="")
   ## if(match(newVersion,allVersions,nomatch=0)!=0)
     ## warning("Overwriting existing packaged version ",newVersion," in directory ",Archive)
   ## if (file.exists(file.path(Archive, freshVersion))){
@@ -110,16 +186,16 @@ refresh <- function(pkgName,
   # }}}
   # {{{  Unloading  
 
-  try(detach(pos=match(paste("package", pkgName, sep = ":"),
+  try(detach(pos=match(paste("package", pkg, sep = ":"),
                search(),
                nomatch=FALSE),unload=TRUE),silent=TRUE)
   
   
-  try(unloadNamespace(pkgName),silent=TRUE)
-  dynname <- paste(file.path(lib),"/",pkgName,sep="")
+  try(unloadNamespace(pkg),silent=TRUE)
+  dynname <- paste(file.path(lib),"/",pkg,sep="")
   message(paste("try unloading ",dynname))
-  try(library.dynam.unload(pkgName,dynname),silent=TRUE)
-  #  TRUE(detach(paste("package", pkgName, sep = ":")),silent=T)
+  try(library.dynam.unload(pkg,dynname),silent=TRUE)
+  #  TRUE(detach(paste("package", pkg, sep = ":")),silent=T)
   
   setwd(oldPwd)
 
@@ -128,7 +204,7 @@ refresh <- function(pkgName,
 
   ## check for lockfile
   if (version$major>=3 || (version$major>=2 & version$minor >= 15))
-  lock <- paste(lib,"/00LOCK-",pkgName,sep="")
+  lock <- paste(lib,"/00LOCK-",pkg,sep="")
   else
   lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
@@ -138,7 +214,7 @@ refresh <- function(pkgName,
   ## }
 
   if (verbose)
-  cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkgName,"\n",rep("-",42),"\n\n",sep="")
+  cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
   
   run.install <- paste(file.path(R.home(),"bin","R"),
                        "CMD INSTALL",
@@ -149,7 +225,7 @@ refresh <- function(pkgName,
                        ## file.path(Archive, newVersion) )
   message(run.install)
   system(run.install,intern=(verbose<2))
-  require(pkgName, character.only = TRUE)
+  require(pkg, character.only = TRUE)
 
   # }}}
 }
