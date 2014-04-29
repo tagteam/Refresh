@@ -7,10 +7,9 @@
 \alias{roxy}
 \title{R packaging tools controlled from within the running R process}
 \usage{
-  refresh(pkg, lib = options()$refreshLibrary,
-    Source = options()$refreshSource, ask = FALSE,
-    recursive = FALSE, docs = TRUE, vignettes = TRUE,
-    verbose = 2)
+refresh(pkg, lib = options()$refreshLibrary,
+  Source = options()$refreshSource, ask = FALSE, recursive = FALSE,
+  docs = TRUE, vignettes = TRUE, verbose = 2)
 }
 \arguments{
   \item{pkg}{The quoted or unquoted name of the package}
@@ -38,15 +37,15 @@
   \item{verbose}{Decides about the degree of talkitivity.}
 }
 \value{
-  Nothing
+Nothing
 }
 \description{
-  You have changed a tiny detail in a man page of your R
-  package, or rewritten the main function of your R
-  package, then you want to re-build and re-install the
-  package. This function is for lazy people like me who do
-  not each time want to open a terminal, find the syntax "R
-  CMD ...", restart R. Enjoy.
+You have changed a tiny detail in a man page of your R
+package, or rewritten the main function of your R package,
+then you want to re-build and re-install the package. This
+function is for lazy people like me who do not each time
+want to open a terminal, find the syntax "R CMD ...",
+restart R. Enjoy.
 }
 \examples{
 refresh(Refresh)
@@ -98,10 +97,10 @@ refresh(roadrunner,verbose=2)
 check.code(roadrunner)}
 }
 \author{
-  Thomas A. Gerds <tag@biostat.ku.dk>
+Thomas A. Gerds <tag@biostat.ku.dk>
 }
 \seealso{
-  build
+build
 }
 \keyword{package}
 
