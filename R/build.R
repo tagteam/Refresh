@@ -12,7 +12,7 @@
 #' in which to search for the package's source code. Default is \code{options()$refreshSource}.
 #' @param roxy if TRUE call roxygenize before building 
 #' @param ask If TRUE prompt user for source and library directories
-#' @param recursive
+#' @param recursive If TRUE search for the package in subdirectories of \code{Archive}.
 #' @param docs if set to FALSE add \code{--no-docs} to CMD install
 #' @param vignettes if set to FALSE add \code{--no-vignettes} to CMD build
 #' @param verbose The level of verbosity
@@ -21,11 +21,12 @@ build <- function(pkg,
                   lib=options()$refreshLibrary,
                   Archive=options()$refreshArchive,
                   Source=options()$refreshSource,
-                  roxy=TRUE,
+                  roxy=FALSE,
                   ask=FALSE,
                   recursive=FALSE,
                   docs = TRUE,
                   vignettes = TRUE,
+                  devel=FALSE,
                   verbose=1){
 
   pkg <- as.character(substitute(pkg))
@@ -58,18 +59,18 @@ build <- function(pkg,
   }
   
   Source <- Source[!duplicated(Source)]
-  found <- sapply(Source,function(s){file.exists(file.path(s,pkg))})
+  found <- sapply(Source,function(s){file.exists(file.path(s,pkg,"DESCRIPTION"))})
   ## print(file.path(Source,pkg))
   if (sum(found)>1){
-    warning("Package source found in two different places.")
-    Spath <- select.list(Source[found],multiple=FALSE,title="Package source found in two different places, please choose: ")
-    SourceP <- file.path(Spath,pkg)
+      warning("Package source found in two different places.")
+      Spath <- select.list(Source[found],multiple=FALSE,title="Package source found in two different places, please choose: ")
+      SourceP <- file.path(Spath,pkg)
   }
   else{
-    if (any(found)) 
-      SourceP <- file.path(Source[found],pkg)
-    else
-      SourceP <- NA
+      if (any(found)) 
+          SourceP <- file.path(Source[found],pkg)
+      else
+          SourceP <- NA
   }
 
   if (!is.na(SourceP)){
@@ -99,9 +100,12 @@ build <- function(pkg,
       if (verbose)
           cat("... Roxygenizing ",pkg,"\n",sep="")
       roxygenize(SourceP)}
-  
-  buildCMD <- paste(file.path(R.home(), "bin", "R"),
-                    "CMD build",
+  if (devel)
+      R <- "~/R/dev/R-devel/bin/R"
+  else
+      R <- file.path(R.home(), "bin", "R")
+  buildCMD <- paste(R,
+                    " CMD build",
                     if(vignettes != TRUE){' --no-vignettes'},
                     SourceP)
   
@@ -149,7 +153,7 @@ build <- function(pkg,
   if (verbose)
   cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
   
-  run.install <- paste(file.path(R.home(),"bin","R"),
+  run.install <- paste(R,
                        "CMD INSTALL",
                        if(docs != TRUE){'--no-docs'},
                        " -l ",

@@ -14,8 +14,9 @@
 ##' where to find the package source code. Default is
 ##' \code{options()$refreshSource}
 ##' @param ask If \code{TRUE} ask for Archive and Source
-##' directories. 
-##' @param recursive If \code{TRUE} search in subdirectories of Archive. 
+##' directories.
+##' @param roxy if TRUE call roxygenize before building 
+##' @param recursive If \code{TRUE} search in subdirectories of \code{Archive}. 
 ##' @param docs If \code{FALSE}  add flag \code{" --no-docs"} to
 ##' the R CMD install command. 
 ##' @param vignettes If \code{FALSE}  add flag \code{" --no-vignettes"}
@@ -78,6 +79,7 @@ refresh <- function(pkg,
                     lib=options()$refreshLibrary,
                     ## Archive=options()$refreshArchive,
                     Source=options()$refreshSource,
+                    roxy=FALSE,
                     ask=FALSE,
                     recursive=FALSE,
                     docs = TRUE,
@@ -99,7 +101,6 @@ refresh <- function(pkg,
   lib <- path.expand(lib)
   if (!(match(sub("/$","",lib),sapply(.libPaths(),function(x)sub("/$","",x)),nomatch=FALSE)))
     warning("\nThe library is not in the search path.\nYou can add it by evaluating the R-command\n `.libPaths(\"",lib,"\")'")
-  
   ## if (is.null(Archive) || ask){
     ## cat("\nChoose directory for saving the result of R CMD build\n ")
     ## Archive <- file.choose()
@@ -116,19 +117,22 @@ refresh <- function(pkg,
   
   Source <- Source[!duplicated(Source)]
   found <- sapply(Source,function(s){
-    file.exists(file.path(s,pkg)) && file.exists(file.path(s,pkg,"DESCRIPTION"))
+      file.exists(file.path(s,pkg)) && file.exists(file.path(s,pkg,"DESCRIPTION"))
   })
   ## print(file.path(Source,pkg))
   if (sum(found)>1){
-    warning("Package source found in two different places.")
-    Spath <- select.list(Source[found],multiple=FALSE,title="Package source found in two different places, please choose: ")
-    SourceP <- file.path(Spath,pkg)
+      warning("Package source found in two different places.")
+      Spath <- select.list(Source[found],multiple=FALSE,title="Package source found in two different places, please choose: ")
+      SourceP <- file.path(Spath,pkg)
   }
   else{
-    if (any(found)) 
-      SourceP <- file.path(Source[found],pkg)
-    else
-      SourceP <- NA
+      if (any(found)){
+          SourceP <- file.path(Source[found],pkg)
+          message("Package found here:", SourceP)
+
+      }
+      else
+          SourceP <- NA
   }
 
   if (!is.na(SourceP)){
@@ -204,15 +208,21 @@ refresh <- function(pkg,
 
   ## check for lockfile
   if (version$major>=3 || (version$major>=2 & version$minor >= 15))
-  lock <- paste(lib,"/00LOCK-",pkg,sep="")
+      lock <- paste(lib,"/00LOCK-",pkg,sep="")
   else
-  lock <- paste(lib,"/00LOCK",sep="")
+      lock <- paste(lib,"/00LOCK",sep="")
   ##   if (file.exists(lock)){
   if (verbose)
-    message("Remove file:",lock)
+      message("Remove file:",lock)
   system(paste("rm -rf",lock),intern=(verbose<2))
   ## }
-
+  
+  if (roxy && require(roxygen2)){
+      if (verbose)
+          cat("... Roxygenizing ",pkg,"\n",sep="")
+      roxygenize(SourceP)
+  }
+  
   if (verbose)
   cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
   

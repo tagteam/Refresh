@@ -4,6 +4,7 @@ check <- function(pkgName,
                   LogDir=options()$refreshCheckLog,
                   lib=.libPaths()[1],
                   recursive=FALSE,
+                  devel=TRUE,
                   ask=FALSE,as.cran=TRUE){
     pkgName <- as.character(substitute(pkgName))  
     if (is.null(Archive) || ask)
@@ -25,11 +26,14 @@ check <- function(pkgName,
         cat("\nChoose a directory for the log of Rcheck (e.g. ~/tmp/) no quotes!\n")
         LogDir <- file.choose()
     }
-    if (as.cran==TRUE)
-        ## checkstring <- paste("cd ",LogDir,";R --no-init-file CMD check --as-cran --library=",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
-        checkstring <- paste("cd ",LogDir,";R CMD check --as-cran --library=",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
+    if (devel==TRUE)
+        R <- "~/R/dev/R-devel/bin/R"
     else
-        checkstring <- paste("cd ",LogDir,";R CMD check --library=",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
+        R <- "/usr/bin/R"
+    if (as.cran==TRUE)
+        checkstring <- paste("cd ",LogDir,";",R," CMD check --as-cran --library=",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
+    else
+        checkstring <- paste("cd ",LogDir,";",R," CMD check --library=",path.expand(lib)," ",path.expand(file.path(Archive)),"/",version,sep="")
     message(checkstring)
     system(checkstring)
 }
