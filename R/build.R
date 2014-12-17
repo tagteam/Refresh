@@ -27,7 +27,7 @@ build <- function(pkg,
                   docs = TRUE,
                   vignettes = TRUE,
                   devel=FALSE,
-                  verbose=1){
+                  verbose=2){
 
   pkg <- as.character(substitute(pkg))
   oldPwd <- getwd()
