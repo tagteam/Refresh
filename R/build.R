@@ -27,6 +27,7 @@ build <- function(pkg,
                   docs = TRUE,
                   vignettes = TRUE,
                   devel=FALSE,
+                  develR="~/R/dev/R-devel/bin/R",
                   verbose=2){
 
   pkg <- as.character(substitute(pkg))
@@ -100,8 +101,8 @@ build <- function(pkg,
       if (verbose)
           cat("... Roxygenizing ",pkg,"\n",sep="")
       roxygenize(SourceP)}
-  if (devel)
-      R <- "~/R/dev/R-devel/bin/R"
+  if (devel & file.exists(develR))
+      R <- develR
   else
       R <- file.path(R.home(), "bin", "R")
   buildCMD <- paste(R,

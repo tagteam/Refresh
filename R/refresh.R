@@ -188,6 +188,8 @@ refresh <- function(pkg,
     }
   }
   # }}}
+  require(devtools)
+  compile_rcpp_attributes(SourceP)
   # {{{  Unloading  
 
   try(detach(pos=match(paste("package", pkg, sep = ":"),

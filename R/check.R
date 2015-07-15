@@ -4,7 +4,8 @@ check <- function(pkgName,
                   LogDir=options()$refreshCheckLog,
                   lib=.libPaths()[1],
                   recursive=FALSE,
-                  devel=file.exists("~/R/dev/R-devel"),
+                  devel=FALSE,
+                  develR="~/R/dev/R-devel/bin/R",
                   ask=FALSE,as.cran=TRUE){
     pkgName <- as.character(substitute(pkgName))  
     if (is.null(Archive) || ask)
@@ -36,8 +37,8 @@ check <- function(pkgName,
         cat("\nChoose a directory for the log of Rcheck (e.g. ~/tmp/) no quotes!\n")
         LogDir <- file.choose()
     }
-    if (devel==TRUE)
-        R <- "~/R/dev/R-devel/bin/R"
+    if (devel & file.exists(develR))
+        R <- develR
     else
         R <- file.path(R.home(), "bin", "R")
     if (as.cran==TRUE)

@@ -15,7 +15,9 @@ Source <- function(pkg,
     pkg <- as.character(substitute(pkg))  
     # {{{  search for an uncompressed package directory with the source code
     Source <- Source[!duplicated(Source)]
-    found <- sapply(Source,function(s){file.exists(file.path(s,pkg))})
+    found <- sapply(Source,function(s){
+        file.exists(file.path(s,pkg))
+    })
     if (!any(found))
         stop("No directory ", pkg, " found")
     ## print(file.path(Source,pkg))
@@ -29,7 +31,7 @@ Source <- function(pkg,
         Source <- Source[!is.na(Source)]
         if (length(Source)>1){
             warning("Package source found in multiple different places.")
-            Spath <- select.list(Source[found],multiple=FALSE,title="Select source directory: ")
+            Spath <- select.list(Source,multiple=FALSE,title="Select source directory: ")
             SourceDir <- file.path(Spath,pkg)
         }else{
             SourceDir <- file.path(Source,pkg)
@@ -49,7 +51,7 @@ Source <- function(pkg,
     Rfiles <- list.files(path=file.path(Rlib),pattern=pattern)
     lapply(Rfiles,function(name){
         message(name)
-        warning(name)
+        ## warning(name)
         source(file.path(Rlib,name))
     })
     # }}}
