@@ -188,8 +188,8 @@ refresh <- function(pkg,
     }
   }
   # }}}
-  require(devtools)
-  compile_rcpp_attributes(SourceP)
+  ## require(devtools)
+  ## devtools:::compile_rcpp_attributes(SourceP)
   # {{{  Unloading  
 
   try(detach(pos=match(paste("package", pkg, sep = ":"),
@@ -205,19 +205,24 @@ refresh <- function(pkg,
   
   setwd(oldPwd)
 
-  # }}}
-  # {{{ R-version specific install command
-
-  ## check for lockfile
-  if (version$major>=3 || (version$major>=2 & version$minor >= 15))
-      lock <- paste(lib,"/00LOCK-",pkg,sep="")
-  else
-      lock <- paste(lib,"/00LOCK",sep="")
-  ##   if (file.exists(lock)){
-  if (verbose)
-      message("Remove file:",lock)
-  system(paste("rm -rf",lock),intern=(verbose<2))
-  ## }
+    # }}}
+    # {{{ R-version specific install command
+    ## check for so files
+    ## check for so files
+    ## sofile <- list.files(path=file.path(Source,"src"),pattern=paste(pkg,"\\.so$",sep=""))
+    ## if (length(sofile)>0){
+        ## for (so in sofile){
+            ## if (verbose) message("Remove file:",so)
+            ## system(paste("rm -rf",so),intern=(verbose<2))
+        ## }
+    ## }
+    ## check for lockfile
+    lock <- paste(lib,"/00LOCK-",pkg,sep="")
+    if (file.exists(lock)){
+        if (verbose)
+            message("Remove file:",lock)
+        system(paste("rm -rf",lock),intern=(verbose<2))
+    }
   
   if (roxy && require(roxygen2)){
       if (verbose)

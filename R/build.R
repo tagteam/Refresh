@@ -28,11 +28,11 @@ build <- function(pkg,
                   vignettes = TRUE,
                   devel=FALSE,
                   develR="~/R/dev/R-devel/bin/R",
-                  verbose=2){
-
-  pkg <- as.character(substitute(pkg))
-  oldPwd <- getwd()
-  setwd(file.path(Archive))
+                  verbose=2,Rcpp=FALSE){
+    system("emacsclient -e '(save-some-buffers)'", intern=TRUE)
+    pkg <- as.character(substitute(pkg))
+    oldPwd <- getwd()
+    setwd(file.path(Archive))
   
   ## if (!is.character(pkg))
   # {{{  locating files
@@ -44,12 +44,12 @@ build <- function(pkg,
   if (!(match(sub("/$","",lib),sapply(.libPaths(),function(x)sub("/$","",x)),nomatch=FALSE)))
     warning("\nThe library is not in the search path.\nYou can add it by evaluating the R-command\n `.libPaths(\"",lib,"\")'")
   
-  if (is.null(Archive) || ask){
-    cat("\nChoose directory for saving the result of R CMD build\n ")
-    Archive <- file.choose()
-  }
-  if (is.null(Archive) || !(file.exists(Archive)))
-    warning("Argument `Archive' is not a valid directory-name.\nIt should be a directory in which the `packageName_version.tar.gz' files are stored.")
+    if (is.null(Archive) || ask){
+        cat("\nChoose directory for saving the result of R CMD build\n ")
+        Archive <- file.choose()
+    }
+    if (is.null(Archive) || !(file.exists(Archive)))
+        warning("Argument `Archive' is not a valid directory-name.\nIt should be a directory in which the `packageName_version.tar.gz' files are stored.")
 
   # }}}
   # {{{  search for an uncompressed package directory with the source code
@@ -77,6 +77,7 @@ build <- function(pkg,
   if (!is.na(SourceP)){
       sourceCodeVersionLine <- system(paste("grep Version: ",file.path(SourceP,"DESCRIPTION")),intern=TRUE)
       sourceCodeVersion <- strsplit(sourceCodeVersionLine,"Version: ")[[1]][[2]]
+      sourceCodeVersion <- gsub("\r","",sourceCodeVersion)
   }
   else{
       ## stop if no directory with that name
@@ -97,14 +98,21 @@ build <- function(pkg,
   ## if (file.exists(file.path(Archive, freshVersion))){
   ## message(paste("\nCopied",file.path(Archive, freshVersion),"to",file.path(Archive,"old", freshVersion),"\n"))
   ## file.copy(file.path(Archive, freshVersion),file.path(Archive,"old", freshVersion))
-  if (roxy && require(roxygen2)){
-      if (verbose)
-          cat("... Roxygenizing ",pkg,"\n",sep="")
-      roxygenize(SourceP)}
-  if (devel & file.exists(develR))
-      R <- develR
-  else
-      R <- file.path(R.home(), "bin", "R")
+
+    if (Rcpp){
+        setwd(file.path(SourceP))
+        devtools::document()
+        setwd(file.path(Archive))
+    }
+    if (roxy && require(roxygen2)){
+        if (verbose)
+            cat("... Roxygenizing ",pkg,"\n",sep="")
+        roxygenize(SourceP)}
+    if (devel & file.exists(develR))
+        R <- develR
+    else
+        R <- file.path(R.home(), "bin", "R")
+
   buildCMD <- paste(R,
                     " CMD build",
                     if(vignettes != TRUE){' --no-vignettes'},
@@ -124,6 +132,7 @@ build <- function(pkg,
 
   # }}}
   # {{{  Unloading  
+
   try(detach(pos=match(paste("package", pkg, sep = ":"),
                search(),
                nomatch=FALSE),unload=TRUE),silent=TRUE)
@@ -139,30 +148,36 @@ build <- function(pkg,
 
   # }}}
   # {{{ R-version specific install command
-  ## check for lockfile
-  if (version$major>=3 || (version$major>=2 & version$minor >= 15))
-      lock <- paste(lib,"/00LOCK-",pkg,sep="")
-  else
-  lock <- paste(lib,"/00LOCK",sep="")
-  ##   if (file.exists(lock)){
-  if (verbose)
-    message("Remove file:",lock)
 
-  system(paste("rm -rf",lock),intern=(verbose<2))
-  ## }
+    ## check for so files
+    ## sofile <- list.files(path=file.path(Source,"src"),pattern=paste(pkg,"\\.so$",sep=""))
+    ## if (length(sofile)>0){
+    ## for (so in sofile){
+    ## if (verbose) message("Remove file:",so)
+    ## system(paste("rm -rf",so),intern=(verbose<2))
+    ## }
+    ## }
+    ## check for lockfile
+    lock <- paste(lib,"/00LOCK-",pkg,sep="")
+    if (file.exists(lock)){
+        if (verbose)
+            message("Remove file:",lock)
+        system(paste("rm -rf",lock),intern=(verbose<2))
+    }
 
-  if (verbose)
-  cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
-  
-  run.install <- paste(R,
-                       "CMD INSTALL",
-                       if(docs != TRUE){'--no-docs'},
-                       " -l ",
-                       file.path(lib),
-                       file.path(Archive, newVersion))
-  message(run.install)
+    if (verbose){
+        cat("\n",rep("-",42),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",42),"\n\n",sep="")
+    }
+    run.install <- paste(R,
+                         "CMD INSTALL",
+                         if(docs != TRUE){'--no-docs'},
+                         " -l ",
+                         file.path(lib),
+                         file.path(Archive, newVersion))
+    message(run.install)
   system(run.install,intern=(verbose<2))
   require(pkg, character.only = TRUE)
+
   # }}}
 }
 

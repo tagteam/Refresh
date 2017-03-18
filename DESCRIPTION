@@ -8,3 +8,4 @@ Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
 Description: For lazy R package managers an efficient way to rebuild and
     re-install a package.
 License: GPL (>= 2)
+RoxygenNote: 5.0.1
