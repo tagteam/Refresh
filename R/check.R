@@ -24,6 +24,7 @@ check <- function(pkgName,
         system(paste("rm -rf",lock),intern=FALSE)
     }
     versions <- list.files(path=file.path(Archive),
+                           ignore.case = 1L,
                            pattern=paste(pkgName,".*.tar.gz$",sep=""),
                            recursive=recursive,full.names=TRUE)
     ## if (length(Archive)>1)

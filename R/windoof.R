@@ -1,7 +1,7 @@
 ##' @export 
 windoof <- function(pgk,tarGet="~/R/packages",recursive=FALSE){
   pgk <- as.character(substitute(pgk))  
-  versions <- list.files(path=file.path(tarGet),pattern=paste(pgk,".*.tar.gz",sep=""),recursive=recursive)
+  versions <- list.files(path=file.path(tarGet),pattern=paste(pgk,".*.tar.gz",sep=""),recursive=recursive,ignore.case=1L)
   version <- select.list(versions,multiple=FALSE,title="Select package version: ")
   cat("\nUsing program ncftp to upload the package:\n")
   ncftp.available <- system("ncftp -version")!=32512

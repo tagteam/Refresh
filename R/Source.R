@@ -49,7 +49,7 @@ Source <- function(pkg,
     Rlib <- path.expand(paste(SourceDir,"/R",sep=""))
     if (!file.exists(Rlib))
         stop(paste("File",Rlib," does not exist."))
-    Rfiles <- list.files(path=file.path(Rlib),pattern=pattern)
+    Rfiles <- list.files(path=file.path(Rlib),pattern=pattern,ignore.case=1L)
     lapply(Rfiles,function(name){
                if (silent==FALSE)        message(name)
                ## warning(name)

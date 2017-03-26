@@ -91,7 +91,7 @@ build <- function(pkg,
   ##  Find the  source code and try to build the tarFile 
   ##  ------------------------------------------------------------------
   ## FIXME: instead of warn ask or backup or increase version number (using awk)
-  allVersions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
+  allVersions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive,ignore.case=1L)
   newVersion <- paste(pkg,"_",sourceCodeVersion,".tar.gz",sep="")
   if(match(newVersion,allVersions,nomatch=0)!=0)
       warning("Overwriting existing packaged version ",newVersion," in directory ",Archive)
@@ -150,7 +150,7 @@ build <- function(pkg,
   # {{{ R-version specific install command
 
     ## check for so files
-    ## sofile <- list.files(path=file.path(Source,"src"),pattern=paste(pkg,"\\.so$",sep=""))
+    ## sofile <- list.files(path=file.path(Source,"src"),pattern=paste(pkg,"\\.so$",sep=""),ignore.case=1L)
     ## if (length(sofile)>0){
     ## for (so in sofile){
     ## if (verbose) message("Remove file:",so)

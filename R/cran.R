@@ -4,7 +4,7 @@ cran <- function(pkg,
                  recursive=FALSE,
                  email=FALSE){
     pkg <- as.character(substitute(pkg))  
-    versions <- list.files(path=file.path(tarGet),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
+    versions <- list.files(path=file.path(tarGet),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive,ignore.case=1L)
     version <- select.list(versions,multiple=FALSE,title="Select package version: ")
     cat("\nUsing program ncftp to upload the package:\n")
     ncftp.available <- length(grep(".*/ncftp",system("which ncftp",intern=TRUE)))>0

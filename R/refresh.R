@@ -179,7 +179,7 @@ refresh <- function(pkg,
   # }}}
   # {{{ removing .o files
   if (file.exists(file.path(SourceP,"src"))){
-    ofiles <- list.files(file.path(SourceP,"src"),pattern="\\.o$")
+    ofiles <- list.files(file.path(SourceP,"src"),pattern="\\.o$",ignore.case=1L)
     if (length(ofiles)>0){
       ## if (select.list(list("y","n"),multiple=FALSE,title=paste("Remove ofiles?:\n ",paste(ofiles,collapse="\n"),"Remove ofiles? "))=="y"){
       message("remove .o files")

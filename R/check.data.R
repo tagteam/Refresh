@@ -5,7 +5,7 @@ check.data <- function(name,path="~/research/SoftWare",pattern=".R$"){
   print(Rlib)
   if (!file.exists(Rlib))
     stop(paste("File",Rlib," does not exist."))
-  Rfiles <- list.files(path=file.path(Rlib),pattern=pattern)
+  Rfiles <- list.files(path=file.path(Rlib),pattern=pattern,ignore.case=1L)
   print(Rfiles)
   lapply(Rfiles,function(name){
     message(name)

@@ -30,8 +30,8 @@ rollback <- function(pkg,
   oldPwd <- getwd()
   setwd(file.path(Archive))
   
-  tarGz.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive)
-  zip.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.zip",sep=""),recursive=recursive)
+  tarGz.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.tar.gz",sep=""),recursive=recursive,ignore.case=1L)
+  zip.versions <- list.files(path=file.path(Archive),pattern=paste(pkg,".*.zip",sep=""),recursive=recursive,ignore.case=1L)
   
   # }}}
   # {{{  now decide what to do
