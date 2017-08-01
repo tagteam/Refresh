@@ -2,10 +2,10 @@
 ##'
 ##' This includes the \donttest{} sections of the examples.
 ##' @title Running examples
-##' @param pkgName
-##' @param Source
-##' @param valgrind
-##' @param verbose
+##' @param pkgName Name of package
+##' @param Source directory in which the package source code lives
+##' @param valgrind does not work yet
+##' @param verbose jabber or not
 ##' @return nothing
 ##' @author Thomas A. Gerds
 ##' @examples

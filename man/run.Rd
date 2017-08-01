@@ -7,6 +7,15 @@
 run(pkgName, Source = options()$refreshSource, valgrind = FALSE,
   verbose = 1)
 }
+\arguments{
+\item{pkgName}{Name of package}
+
+\item{Source}{directory in which the package source code lives}
+
+\item{valgrind}{does not work yet}
+
+\item{verbose}{jabber or not}
+}
 \value{
 nothing
 }
