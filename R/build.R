@@ -99,13 +99,13 @@ build <- function(pkg,
     ## if (file.exists(file.path(Archive, freshVersion))){
     ## message(paste("\nCopied",file.path(Archive, freshVersion),"to",file.path(Archive,"old", freshVersion),"\n"))
     ## file.copy(file.path(Archive, freshVersion),file.path(Archive,"old", freshVersion))
-
-    if (Rcpp){
+    
+    if (file.exists(file.path(SourceP,"src")) && Rcpp){
         setwd(file.path(SourceP))
         devtools::document()
         ## replace routine registration file: init.c
         sink(file.path(SourceP,"src/init.c"))
-        tools::package_native_routine_registration_skeleton(file.path(SourceP))
+        tools::package_native_routine_registration_skeleton(file.path(SourceP),character_only=FALSE)
         sink(NULL)
         setwd(file.path(Archive))
     }

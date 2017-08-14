@@ -27,4 +27,3 @@ This is useful to try changes of a package and to identify syntax failures.
 \author{
 Thomas A. Gerds <tag@biostat.ku.dk>
 }
-

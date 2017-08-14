@@ -25,10 +25,9 @@ Also, the package is loaded after installation.
 \examples{
 install(prodlim)
 }
-\author{
-Thomas A. Gerds <tag@biostat.ku.dk>
-}
 \seealso{
 install.packages
 }
-
+\author{
+Thomas A. Gerds <tag@biostat.ku.dk>
+}

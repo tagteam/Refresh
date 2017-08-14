@@ -37,4 +37,3 @@ in which to search for the package's source code. Default is \code{options()$ref
 \description{
 Build an R-package from source files.
 }
-
