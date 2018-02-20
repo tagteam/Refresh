@@ -5,7 +5,7 @@
 \alias{check.code}
 \title{Source all R files of a package}
 \usage{
-Source(pkg, Source = options()$refreshSource, pattern = ".r$|.R$",
+Source(pkg, Source = options()$packageHome, pattern = ".r$|.R$",
   silent = FALSE)
 }
 \arguments{

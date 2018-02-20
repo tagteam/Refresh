@@ -1,5 +1,5 @@
 #' @export
-check <- function(pkgName,
+Check <- function(pkgName,
                   Archive=options()$refreshArchive,
                   LogDir=options()$refreshCheckLog,
                   lib=.libPaths()[1],

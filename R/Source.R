@@ -10,7 +10,7 @@
 ##' @export 
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
 Source <- function(pkg,
-                   Source=options()$refreshSource,
+                   Source=options()$packageHome,
                    pattern=".r$|.R$",
                    silent=FALSE){
     pkg <- as.character(substitute(pkg))  
