@@ -1,3 +1,16 @@
+##' Run R CMD check on a version of a package
+##'
+##' Run R CMD check on a version of a package
+##' @title Run valgrind to find leaks in source code of a package 
+##' @param pkgName name of package
+#' @param Archive place on computer where the tar.gz versions of the package live 
+#' @param LogDir place for output
+#' @param lib R library 
+#' @param recursive if \code{TRUE} search also subdirectories of \code{Archive} for package versions 
+#' @param devel if \code{TRUE} use R's devel version
+#' @param develR path to R's devel version
+#' @param ask if \code{TRUE} let user choose a version
+#' @param as.cran passed to R CMD check
 #' @export
 Check <- function(pkgName,
                   Archive=options()$refreshArchive,
