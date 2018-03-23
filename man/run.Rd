@@ -26,9 +26,9 @@ Running examples
 This includes the \donttest{} sections of the examples.
 }
 \examples{
-
+\dontrun{
 run(prodlim)
-
+}
 }
 \author{
 Thomas A. Gerds

@@ -9,9 +9,9 @@
 ##' @return nothing
 ##' @author Thomas A. Gerds
 ##' @examples
-##' 
+##' \dontrun{
 ##' run(prodlim)
-##'
+##'}
 ##' @export
 run <- function(pkgName,
                 Source=options()$refreshSource,

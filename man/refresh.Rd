@@ -49,9 +49,9 @@ You have changed a tiny detail in a man page of your R package, or
  "R CMD ...", restart R. Enjoy.
 }
 \examples{
-refresh(Refresh)
 
 \dontrun{
+refresh(Refresh)
 
 # Suppose you have an R-package called 'roadrunner'.
 # 

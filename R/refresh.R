@@ -25,9 +25,9 @@
 ##' @return Nothing
 ##' @seealso build 
 ##' @examples
-##' refresh(Refresh)
 ##'
 ##' \dontrun{
+##' refresh(Refresh)
 ##'
 ##'# Suppose you have an R-package called 'roadrunner'.
 ##'# 

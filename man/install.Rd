@@ -23,7 +23,7 @@ This is a wrapper for install.packages which allows the user to forget the quote
 Also, the package is loaded after installation.
 }
 \examples{
-install(prodlim)
+\dontrun{install(prodlim)}
 }
 \seealso{
 install.packages

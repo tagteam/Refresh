@@ -4,7 +4,8 @@ Title: Run RCMD build, install, check from within R
 Version: 2018-03-23
 Author: Thomas A. Gerds
 Imports:
-    devtools
+    devtools,
+    roxygen2
 Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
 Description: For lazy R package managers an efficient way to rebuild and
     re-install a package.

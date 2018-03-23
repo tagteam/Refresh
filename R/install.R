@@ -9,7 +9,7 @@
 ##' @return see install.packages 
 ##' @seealso install.packages
 ##' @examples
-##' install(prodlim)
+##' \dontrun{install(prodlim)}
 ##' @export 
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
 install <- function(pkg,...){

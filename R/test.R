@@ -9,9 +9,9 @@
 ##' @return nothing
 ##' @author Thomas A. Gerds
 ##' @examples
-##' 
+##' \dontrun{
 ##' test(prodlim)
-##'
+##'}
 ##' @export
 test <- function(pkgName,
                  Source=options()$packageHome,

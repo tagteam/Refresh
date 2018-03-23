@@ -25,9 +25,9 @@ Running test files
 Source all files in pkg/tests and run examples
 }
 \examples{
-
+\dontrun{
 test(prodlim)
-
+}
 }
 \author{
 Thomas A. Gerds
