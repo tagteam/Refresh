@@ -50,12 +50,10 @@ Source <- function(pkg,
         stop(paste("File",Rlib," does not exist."))
     Rfiles <- list.files(path=file.path(Rlib),pattern=pattern,ignore.case=1L)
     lapply(Rfiles,function(name){
-               if (silent==FALSE)        message(name)
+               message(name)
                ## warning(name)
                source(file.path(Rlib,name))
            })
     # }}}
     invisible(NULL)
 }
-##' @export 
-check.code <- Source

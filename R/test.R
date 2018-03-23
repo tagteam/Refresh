@@ -52,7 +52,7 @@ test <- function(pkgName,
     }else{
         testfiles <- list.files(path=file.path(testlib),recursive=TRUE,pattern=".r$|.R$",ignore.case=1L)
         lapply(testfiles,function(name){
-            if (silent==FALSE) message(name)
+            message(name)
             message(name)
             source(file.path(testlib,name))
         })
