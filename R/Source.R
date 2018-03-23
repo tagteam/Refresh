@@ -11,8 +11,7 @@
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
 Source <- function(pkg,
                    Source=options()$packageHome,
-                   pattern=".r$|.R$",
-                   silent=FALSE){
+                   pattern=".r$|.R$"){
     pkg <- as.character(substitute(pkg))  
     # {{{  search for an uncompressed package directory with the source code
     Source <- Source[!duplicated(Source)]

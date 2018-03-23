@@ -3,7 +3,7 @@
 ##' This is a wrapper for install.packages which allows the user to forget the quotes.
 ##' Also, the package is loaded after installation.
 ##' @title Install an R package
-##' @aliases rforge install
+##' @aliases Install 
 ##' @param pkg Quoted or unquoted name of the package
 ##' @param ... passed to install.packages
 ##' @return see install.packages 

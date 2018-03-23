@@ -1,6 +1,6 @@
 ##' Running examples 
 ##'
-##' This includes the \donttest{} sections of the examples.
+##' This includes the donttest{} sections of the examples.
 ##' @title Running examples
 ##' @param pkgName Name of package
 ##' @param Source directory in which the package source code lives

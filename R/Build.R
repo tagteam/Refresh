@@ -12,6 +12,10 @@ Build <- function(pkg,
                   Source=options()$packageHome,
                   ask=FALSE,
                   vignettes = TRUE){
+    if (is.null(options()$packageHome)){
+        stop("You should set options()$packageHome in your .Rprofile to the folders on your computer\nin which the package directory with the source code of the package is found. E.g.,
+                 options(packageHome=c(\"~/R/dev/\",\"~/Software/\",\"~/myRpackages)\"")
+    }
     system("emacsclient -e '(save-some-buffers)'", intern=TRUE)
     pkg <- as.character(substitute(pkg))
     oldPwd <- getwd()

@@ -5,8 +5,7 @@
 \alias{check.code}
 \title{Source all R files of a package}
 \usage{
-Source(pkg, Source = options()$packageHome, pattern = ".r$|.R$",
-  silent = FALSE)
+Source(pkg, Source = options()$packageHome, pattern = ".r$|.R$")
 }
 \arguments{
 \item{pkg}{Quoted or unquoted name of the package}

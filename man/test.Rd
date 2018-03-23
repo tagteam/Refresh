@@ -4,7 +4,7 @@
 \alias{test}
 \title{Running test files}
 \usage{
-test(pkgName, Source = options()$packageHome, silent = 0L, verbose = 1)
+test(pkgName, Source = options()$packageHome, verbose = 1)
 }
 \arguments{
 \item{pkgName}{Name of package}
@@ -12,8 +12,6 @@ test(pkgName, Source = options()$packageHome, silent = 0L, verbose = 1)
 \item{Source}{directory in which the package source code lives}
 
 \item{verbose}{jabber or not}
-
-\item{valgrind}{does not work yet}
 }
 \value{
 nothing

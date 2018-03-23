@@ -2,7 +2,7 @@
 % Please edit documentation in R/install.R
 \name{install}
 \alias{install}
-\alias{rforge}
+\alias{Install}
 \title{Install an R package}
 \usage{
 install(pkg, ...)

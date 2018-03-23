@@ -51,13 +51,15 @@ package.skeleton(list=c("coyote"),name="roadrunner")
 # run R CMD build and install:
 refresh("roadrunner")
 
+Build("roadrunner")
+
 # if there is an error, locate the corresponding file:
-check.code("roadrunner")
+Source("roadrunner")
 
 # run R CMD check
-check("roadrunner")
+Check("roadrunner")
 
-# upload to cran:
-cran("roadrunner")
+# upload to winbuilder
+windoof("roadrunner")
 }
 }

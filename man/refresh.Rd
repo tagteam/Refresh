@@ -92,10 +92,10 @@ refresh(roadrunner)
 ##
 refresh(roadrunner,verbose=2)
 
-# and by calling 'check.code' which runs all R-files of the package
+# and by calling 'Source' which runs all R-files of the package
 # via 'source(filename)'
 
-check.code(roadrunner)}
+Source(roadrunner)}
 }
 \seealso{
 build

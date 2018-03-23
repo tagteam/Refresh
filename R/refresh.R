@@ -68,10 +68,10 @@
 ##'##
 ##'refresh(roadrunner,verbose=2)
 ##'
-#'# and by calling 'check.code' which runs all R-files of the package
+#'# and by calling 'Source' which runs all R-files of the package
 #'# via 'source(filename)'
 ##'
-##'check.code(roadrunner)}
+##' Source(roadrunner)}
 ##' @keywords package 
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
 ##' @export 
@@ -201,7 +201,6 @@ refresh <- function(pkg,
   dynname <- paste(file.path(lib),"/",pkg,sep="")
   message(paste("try unloading ",dynname))
   try(library.dynam.unload(pkg,dynname),silent=TRUE)
-  #  TRUE(detach(paste("package", pkg, sep = ":")),silent=T)
   
   setwd(oldPwd)
 
@@ -224,10 +223,10 @@ refresh <- function(pkg,
         system(paste("rm -rf",lock),intern=(verbose<2))
     }
   
-  if (roxy && require(roxygen2)){
+  if (roxy){
       if (verbose)
           cat("... Roxygenizing ",pkg,"\n",sep="")
-      roxygenize(SourceP)
+      roxygen2::roxygenize(SourceP)
   }
   
   if (verbose)

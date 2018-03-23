@@ -4,7 +4,6 @@
 ##' @title Running test files
 ##' @param pkgName Name of package
 ##' @param Source directory in which the package source code lives
-##' @param valgrind does not work yet
 ##' @param verbose jabber or not
 ##' @return nothing
 ##' @author Thomas A. Gerds
@@ -15,7 +14,6 @@
 ##' @export
 test <- function(pkgName,
                  Source=options()$packageHome,
-                 silent=0L,
                  verbose=1){
     pkgName <- as.character(substitute(pkgName))
     Source <- Source[!duplicated(Source)]
@@ -59,8 +57,6 @@ test <- function(pkgName,
             source(file.path(testlib,name))
         })
     }
-    # }}}
-    # {{{ valgrind
     # }}}
     # {{{ running examples
     pos <- match(paste("package:",pkgName,sep=""),search(),nomatch=0)

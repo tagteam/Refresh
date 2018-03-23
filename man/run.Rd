@@ -23,7 +23,7 @@ nothing
 Running examples
 }
 \details{
-This includes the \donttest{} sections of the examples.
+This includes the donttest{} sections of the examples.
 }
 \examples{
 \dontrun{
