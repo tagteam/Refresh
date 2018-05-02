@@ -4,7 +4,8 @@
 \alias{Build}
 \title{R packaging tool combining emacs save buffers with devtools::document, devtools::build, devtools::install}
 \usage{
-Build(pkg, Source = options()$packageHome, ask = FALSE, vignettes = TRUE)
+Build(pkg, Source = options()$packageHome, ask = FALSE, vignettes = FALSE,
+  ...)
 }
 \arguments{
 \item{pkg}{The quoted or unquoted name of the package}
@@ -14,7 +15,9 @@ in which to search for the package's source code. Default is \code{options()$ref
 
 \item{ask}{If TRUE prompt user for source and library directories}
 
-\item{vignettes}{passed to devtools::build}
+\item{vignettes}{passed to devtools::install as build_vignettes}
+
+\item{...}{passed devtools::build}
 }
 \description{
 Build an R-package from source files.

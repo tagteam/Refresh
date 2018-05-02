@@ -6,12 +6,14 @@
 #' A list of directories or a single directory
 #' in which to search for the package's source code. Default is \code{options()$refreshSource}.
 #' @param ask If TRUE prompt user for source and library directories
-#' @param vignettes passed to devtools::build
+#' @param vignettes passed to devtools::install as build_vignettes
+#' @param ... passed devtools::build
 #' @export
 Build <- function(pkg,
                   Source=options()$packageHome,
                   ask=FALSE,
-                  vignettes = TRUE){
+                  vignettes=FALSE,
+                  ...){
     if (is.null(options()$packageHome)){
         stop("You should set options()$packageHome in your .Rprofile to the folders on your computer\nin which the package directory with the source code of the package is found. E.g.,
                  options(packageHome=c(\"~/R/dev/\",\"~/Software/\",\"~/myRpackages)\"")
@@ -40,13 +42,16 @@ Build <- function(pkg,
     # }}}
     # {{{ devtools::document, devtools::build, devtools::install
     setwd(file.path(SourceP))   
-    cat("\nRunning devtools::document ...\n")
+    cat("\nRunning devtools::build_vignettes() ...\n")
+    if (vignettes)
+        devtools::build_vignettes()
+    cat("\nRunning devtools::document() ...\n")
     devtools::document()
-    cat("\nRunning devtools::build ...\n")
-    devtools::build()
+    cat("\nRunning devtools::build() ...\n")
+    devtools::build(...,vignettes=FALSE)
     cat("\n",rep("-",options()$width),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",options()$width),"\n",sep="")
     cat("\nRunning devtools::install ...\n")
-    devtools::install()
+    devtools::install(build_vignettes=vignettes)
     # }}}
     cat("\nCurrently installed version of",pkg,":\n")
     cat("\n",as.character(packageVersion(pkg)),"\n")

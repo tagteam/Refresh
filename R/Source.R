@@ -12,7 +12,7 @@
 Source <- function(pkg,
                    Source=options()$packageHome,
                    pattern=".r$|.R$"){
-    pkg <- as.character(substitute(pkg))  
+    pkg <- as.character(substitute(pkg))
     # {{{  search for an uncompressed package directory with the source code
     Source <- Source[!duplicated(Source)]
     found <- sapply(Source,function(s){
@@ -21,6 +21,7 @@ Source <- function(pkg,
     if (!any(found))
         stop("No directory ", pkg, " found")
     ## print(file.path(Source,pkg))
+    system("emacsclient -e '(save-some-buffers)'", intern=TRUE)
     if (sum(found)>1){
         ## restrict to those with a DESCRIPTION file
         Source <- sapply(Source[found],function(s){

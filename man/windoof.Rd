@@ -4,7 +4,7 @@
 \alias{windoof}
 \title{windoof}
 \usage{
-windoof(pgk, tarGet = "~/R/packages", recursive = FALSE)
+windoof(pgk, tarGet = options()$packageHome[[9]], recursive = FALSE)
 }
 \arguments{
 \item{pgk}{package name}
