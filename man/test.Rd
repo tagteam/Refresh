@@ -4,12 +4,15 @@
 \alias{test}
 \title{Running test files}
 \usage{
-test(pkgName, Source = options()$packageHome, verbose = 1)
+test(pkgName, Source = options()$packageHome, examples = FALSE,
+  verbose = 1)
 }
 \arguments{
 \item{pkgName}{Name of package}
 
 \item{Source}{directory in which the package source code lives}
+
+\item{examples}{if TRUE run examples including dontrun}
 
 \item{verbose}{jabber or not}
 }

@@ -4,8 +4,8 @@
 \alias{Build}
 \title{R packaging tool combining emacs save buffers with devtools::document, devtools::build, devtools::install}
 \usage{
-Build(pkg, Source = options()$packageHome, ask = FALSE, vignettes = FALSE,
-  ...)
+Build(pkg, Source = options()$packageHome, ask = FALSE,
+  vignettes = FALSE, ...)
 }
 \arguments{
 \item{pkg}{The quoted or unquoted name of the package}
