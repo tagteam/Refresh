@@ -12,6 +12,7 @@
 Build <- function(pkg,
                   Source=options()$packageHome,
                   ask=FALSE,
+                  quick=FALSE,
                   vignettes=FALSE,
                   ...){
     if (is.null(options()$packageHome)){
@@ -51,7 +52,7 @@ Build <- function(pkg,
     devtools::build(...,vignettes=FALSE)
     cat("\n",rep("-",options()$width),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",options()$width),"\n",sep="")
     cat("\nRunning devtools::install ...\n")
-    devtools::install(build_vignettes=vignettes)
+    devtools::install(quick=quick,build_vignettes=vignettes)
     # }}}
     cat("\nCurrently installed version of",pkg,":\n")
     cat("\n",as.character(packageVersion(pkg)),"\n")
