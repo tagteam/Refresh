@@ -13,6 +13,7 @@ Build <- function(pkg,
                   Source=options()$packageHome,
                   ask=FALSE,
                   quick=FALSE,
+                  recompile=FALSE,
                   quiet=TRUE,
                   vignettes=FALSE,
                   ...){
@@ -47,8 +48,12 @@ Build <- function(pkg,
     cat("\nRunning devtools::build_vignettes() ...\n")
     if (vignettes)
         devtools::build_vignettes()
+    cat("\nRunning Rcpp::compileAttributes() ...\n")
+    Rcpp::compileAttributes()
     cat("\nRunning devtools::document() ...\n")
     devtools::document()
+    if (recompile==TRUE)
+        pkgbuild::compile_dll()
     cat("\nRunning devtools::build() ...\n")
     devtools::build(...,vignettes=FALSE)
     cat("\n",rep("-",options()$width),"\nInstalling the ",ifelse(is.na(SourceP),"selected","new")," version of ",pkg,"\n",rep("-",options()$width),"\n",sep="")
