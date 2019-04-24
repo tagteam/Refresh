@@ -2,23 +2,35 @@
 % Please edit documentation in R/Build.R
 \name{Build}
 \alias{Build}
-\title{R packaging tool combining emacs save buffers with devtools::document, devtools::build, devtools::install}
+\title{R packaging tool combining emacs save buffers with
+    devtools::document, devtools::build, devtools::install}
 \usage{
 Build(pkg, Source = options()$packageHome, ask = FALSE,
-  quick = FALSE, recompile = FALSE, quiet = TRUE,
-  vignettes = FALSE, ...)
+  quick = FALSE, recompile = FALSE, quiet = FALSE,
+  vignettes = TRUE, verbose = TRUE, ...)
 }
 \arguments{
 \item{pkg}{The quoted or unquoted name of the package}
 
-\item{Source}{A list of directories or a single directory
-in which to search for the package's source code. Default is \code{options()$refreshSource}.}
+\item{Source}{path to mother directory of the package source, defaults to options()$packageHome}
 
 \item{ask}{If TRUE prompt user for source and library directories}
 
-\item{vignettes}{passed to devtools::install as build_vignettes}
+\item{quick}{passed to devtools::install}
+
+\item{recompile}{use pkgbuild::compile_dll()?}
+
+\item{quiet}{passed to devtools::install}
+
+\item{vignettes}{if TRUE circumvent devtools::install and use R CMD build/INSTALL instead}
+
+\item{verbose}{blabla?}
 
 \item{...}{passed devtools::build}
+
+\item{Source}{A list of directories or a single directory #' in
+    which to search for the package's source code. Default is
+\code{options()$refreshSource}.}
 }
 \description{
 Build an R-package from source files.

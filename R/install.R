@@ -12,9 +12,7 @@
 ##' \dontrun{install(prodlim)}
 ##' @export 
 ##' @author Thomas A. Gerds <tag@@biostat.ku.dk>
-install <- function(pkg,...){
+Install <- function(pkg,...){
     install.packages(as.character(substitute(pkg)),...)
     require(as.character(substitute(pkg)), character.only = TRUE)
 }
-##' @export 
-Install <- install
