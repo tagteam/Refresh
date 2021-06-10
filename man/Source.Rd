@@ -12,6 +12,8 @@ Source(pkg, Source = options()$packageHome, cpp = FALSE, pattern = ".r$|.R$")
 
 \item{Source}{place where to look for package}
 
+\item{cpp}{When \code{TRUE} run \code{Rcpp::sourceCpp} on all \code{.cpp} files in \code{src} directory.}
+
 \item{pattern}{Matched against file-names in package.}
 }
 \value{

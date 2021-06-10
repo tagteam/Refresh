@@ -5,6 +5,7 @@
 ##' @title Source all R files of a package
 ##' @param pkg Quoted or unquoted name of the package
 ##' @param Source place where to look for package
+##' @param cpp When \code{TRUE} run \code{Rcpp::sourceCpp} on all \code{.cpp} files in \code{src} directory. 
 ##' @param pattern Matched against file-names in package.
 ##' @return nothing
 ##' @export 

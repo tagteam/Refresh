@@ -25,6 +25,8 @@ Build(
     which to search for the package's source code. Default is
 \code{options()$refreshSource}.}
 
+\item{lib}{Where to install the package. Default is \code{.libPaths()[1]}.}
+
 \item{ask}{If TRUE prompt user for source and library directories}
 
 \item{quick}{passed to devtools::install}

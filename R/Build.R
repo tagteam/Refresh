@@ -4,6 +4,7 @@
 #'     devtools::document, devtools::build, devtools::install
 #' @param pkg The quoted or unquoted name of the package
 #' @param Source path to mother directory of the package source, defaults to options()$packageHome
+#' @param lib Where to install the package. Default is \code{.libPaths()[1]}.
 #' @param ask If TRUE prompt user for source and library directories
 #' @param quick passed to devtools::install
 #' @param recompile use pkgbuild::compile_dll()?
@@ -91,7 +92,7 @@ Build <- function(pkg,
             devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE)
         }else{
             cat("\nRunning devtools::install\nnot showing progress/output as this messes up the font-lock of the *R* buffer ...\n")
-            capture.output(devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE))
+            utils::capture.output(devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE))
         }
     }
                                         # }}}

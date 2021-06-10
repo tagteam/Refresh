@@ -1,14 +1,16 @@
 Package: Refresh
 Type: Package
 Title: Run RCMD build, install, check from within R
-Version: 2019-04-11
+Version: 2021-06-10
 Author: Thomas A. Gerds
 Imports:
     devtools,
     roxygen2,
-    pkgbuild
+    pkgbuild,
+    utils,
+    rprojroot
 Suggests:
-    Rcpp
+    Rcpp,
 Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
 Description: For lazy R package managers an efficient way to rebuild and
     re-install a package.
