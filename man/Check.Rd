@@ -4,10 +4,17 @@
 \alias{Check}
 \title{Run valgrind to find leaks in source code of a package}
 \usage{
-Check(pkgName, Archive = options()$refreshArchive,
-  LogDir = options()$refreshCheckLog, lib = .libPaths()[1],
-  recursive = FALSE, devel = FALSE, develR = "~/R/dev/R-devel/bin/R",
-  ask = FALSE, as.cran = TRUE)
+Check(
+  pkgName,
+  Archive = options()$refreshArchive,
+  LogDir = options()$refreshCheckLog,
+  lib = .libPaths()[1],
+  recursive = FALSE,
+  devel = FALSE,
+  develR = "~/R/dev/R-devel/bin/R",
+  ask = FALSE,
+  as.cran = TRUE
+)
 }
 \arguments{
 \item{pkgName}{name of package}

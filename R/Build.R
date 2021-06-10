@@ -17,6 +17,7 @@
 #' @export
 Build <- function(pkg,
                   Source=options()$packageHome,
+                  lib=.libPaths()[1],
                   ask=FALSE,
                   quick=FALSE,
                   recompile=FALSE,
@@ -25,8 +26,8 @@ Build <- function(pkg,
                   verbose=TRUE,
                   ...){
     if (is.null(options()$packageHome)){
-        stop("You should set options()$packageHome in your .Rprofile to the folders on your computer\nin which the package directory with the source code of the package is found. E.g.,
-                 options(packageHome=c(\"~/R/dev/\",\"~/Software/\",\"~/myRpackages)\"")
+        message("You could set options()$packageHome in your .Rprofile to the folders on your computer\nin which the package directory with the source code of the package is found. E.g.,
+     options(packageHome=c(\"~/R/dev/\",\"~/Software/\",\"~/myRpackages)\"")
     }
     system("emacsclient -e '(save-some-buffers)'", intern=TRUE)
     pkg <- as.character(substitute(pkg))
@@ -57,10 +58,10 @@ Build <- function(pkg,
         file.remove(lock)
     }
     
-    # {{{ devtools::document, devtools::build, devtools::install
+                                        # {{{ devtools::document, devtools::build, devtools::install
     setwd(file.path(SourceP))
     cat("\nRunning Rcpp::compileAttributes() ...\n")
-    Rcpp::compileAttributes()
+    try(Rcpp::compileAttributes())
     if (recompile==TRUE){
         cat("\nRunning pkgbuild::compile_dll() ...\n")
         pkgbuild::compile_dll()
@@ -86,10 +87,14 @@ Build <- function(pkg,
         system(run.install,intern=(verbose<2))
         require(pkg, character.only = TRUE)
     }else{
-        cat("\nRunning devtools::install ...\n")
-        devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE)
+        if (verbose){
+            devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE)
+        }else{
+            cat("\nRunning devtools::install\nnot showing progress/output as this messes up the font-lock of the *R* buffer ...\n")
+            capture.output(devtools::install(quick=quick,reload=TRUE,upgrade=FALSE,quiet=quiet,build_vignettes=FALSE))
+        }
     }
-    # }}}
+                                        # }}}
     cat("\nCurrently installed version of",pkg,":\n")
     cat("\n",as.character(packageVersion(pkg)),"\n")
     setwd(oldPwd)

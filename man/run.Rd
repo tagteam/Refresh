@@ -4,8 +4,7 @@
 \alias{run}
 \title{Running examples}
 \usage{
-run(pkgName, Source = options()$refreshSource, valgrind = FALSE,
-  verbose = 1)
+run(pkgName, Source = options()$refreshSource, valgrind = FALSE, verbose = 1)
 }
 \arguments{
 \item{pkgName}{Name of package}

@@ -4,8 +4,7 @@
 \alias{test}
 \title{Running test files}
 \usage{
-test(pkgName, Source = options()$packageHome, examples = FALSE,
-  verbose = 1)
+test(pkgName, Source = options()$packageHome, examples = FALSE, verbose = 1)
 }
 \arguments{
 \item{pkgName}{Name of package}

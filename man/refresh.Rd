@@ -9,9 +9,17 @@
 \alias{cran}
 \title{R packaging tools controlled from within the running R process}
 \usage{
-refresh(pkg, lib = options()$refreshLibrary,
-  Source = options()$refreshSource, roxy = FALSE, ask = FALSE,
-  recursive = FALSE, docs = TRUE, vignettes = TRUE, verbose = 2)
+refresh(
+  pkg,
+  lib = options()$refreshLibrary,
+  Source = options()$refreshSource,
+  roxy = FALSE,
+  ask = FALSE,
+  recursive = FALSE,
+  docs = TRUE,
+  vignettes = TRUE,
+  verbose = 2
+)
 }
 \arguments{
 \item{pkg}{The quoted or unquoted name of the package}
